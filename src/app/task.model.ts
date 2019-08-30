@@ -1,7 +1,14 @@
 export class Task {
-    task : string;
+    task:string;
     priority: string;
     parentTask: string;
     startDate: string;
     endDate: string;
+
+    constructor()
+    {
+        
+    }
+
+    
 }

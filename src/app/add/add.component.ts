@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Task } from '../task.model';
+import { TaskService } from '../task.service';
+
 
 @Component({
   selector: 'app-add',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddComponent implements OnInit {
 
-  constructor() { }
+  constructor(private taskservice: TaskService) { }
 
   ngOnInit() {
+  }
+
+  task: Task = new Task();
+
+  addOrUpdateTask(task: Task): void
+  {
+    console.log("Inside Add Component. Data is "+ JSON.stringify(task));
+    this.taskservice.addOrUpdateTask(task);
+
   }
 
 }
