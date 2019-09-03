@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Task } from './task.model';
-import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,8 @@ export class TaskService {
 
   constructor(private http: HttpClient ) { }
 
-  private apiUrl: string = "http://localhost:8080/taskmanager";
+  private apiUrl: string = "https://public-api.wordpress.com/rest/v1.1/sites/vocon-it.com/posts";
+ 
 
   addOrUpdateTask(task: Task): void
   {
@@ -18,7 +19,13 @@ export class TaskService {
     this.http.post<Task>(this.apiUrl + '/addtask', task);
   }
 
-  viewTask(){
-    this.http.get<Task[]>(this.apiUrl + "viewtask").subscribe(data=>console.log(data));
+ // Read all REST Items
+ viewTask(){
+  return this.http.get<any[]>(this.apiUrl).pipe(map(data => data));
+      }
+
+  updateEndStatus(task: Task)
+  {
+    this.http.post<Task>(this.apiUrl + '/updateendstatus', task);
   }
 }

@@ -8,13 +8,15 @@ import { AddComponent } from './add/add.component';
 import { ViewComponent } from './view/view.component';
 import { UpdateComponent } from './update/update.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchFilter } from './searchfilter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddComponent,
     ViewComponent,
-    UpdateComponent
+    UpdateComponent,
+    SearchFilter
   ],
   imports: [
     BrowserModule,

@@ -19,6 +19,7 @@ export class AddComponent implements OnInit {
 
   addOrUpdateTask(task: Task): void
   {
+    task.taskEndStatus = 'false';
     console.log("Inside Add Component. Data is "+ JSON.stringify(task));
     this.taskservice.addOrUpdateTask(task);
 

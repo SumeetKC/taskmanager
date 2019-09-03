@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Task } from '../task.model';
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-view',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(private taskservice: TaskService ) { }
+  taskItems: any[];
 
   ngOnInit() {
+    this.taskservice.viewTask().subscribe(taskItems => {this.taskItems = taskItems;});
+    
+  }
+
+  updateEndStatus(task: Task)
+  {
+    task.taskEndStatus = "true";
+    this.taskservice.updateEndStatus(task);
   }
 
 }
