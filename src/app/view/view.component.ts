@@ -13,13 +13,13 @@ export class ViewComponent implements OnInit {
   taskItems: any[];
 
   ngOnInit() {
-    this.taskservice.viewTask().subscribe(taskItems => {this.taskItems = taskItems;});
-    
+    this.taskservice.viewTask().subscribe(taskItems => {this.taskItems = taskItems; });
+    console.log(this.taskItems);
   }
 
-  updateEndStatus(task: Task)
-  {
-    task.taskEndStatus = "true";
+
+  updateEndStatus(task: Task)  {
+    task.taskEndStatus = 'true';
     this.taskservice.updateEndStatus(task);
   }
 

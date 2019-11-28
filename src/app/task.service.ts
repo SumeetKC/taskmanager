@@ -10,22 +10,25 @@ export class TaskService {
 
   constructor(private http: HttpClient ) { }
 
-  private apiUrl: string = "https://public-api.wordpress.com/rest/v1.1/sites/vocon-it.com/posts";
- 
+  private apiUrl = 'http://localhost:8080/v1';
 
-  addOrUpdateTask(task: Task): void
-  {
-    console.log("Inside Service. The Data to be sent is "+ JSON.stringify(task));
+
+  addOrUpdateTask(task: Task): void {
+    console.log('Inside Service. The Data to be sent is ' + JSON.stringify(task));
     this.http.post<Task>(this.apiUrl + '/addtask', task);
   }
 
+  updateTask(task: Task): void {
+    console.log('Inside Service. The Data to be sent is ' + JSON.stringify(task));
+    this.http.post<Task>(this.apiUrl + '/updatetask', task);
+  }
+
  // Read all REST Items
- viewTask(){
-  return this.http.get<any[]>(this.apiUrl).pipe(map(data => data));
+ viewTask() {
+  return this.http.get<any[]>(this.apiUrl + '/tasks').pipe(map(data => data));
       }
 
-  updateEndStatus(task: Task)
-  {
+  updateEndStatus(task: Task)  {
     this.http.post<Task>(this.apiUrl + '/updateendstatus', task);
   }
 }
