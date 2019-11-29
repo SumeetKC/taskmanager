@@ -1,11 +1,14 @@
 export class Task {
-    task: string;
-    priority: string;
-    parentTask: string;
-    startDate: string;
-    endDate: string;
-    taskEndStatus: string;
-
+    
+    taskId : number;
+	parentId : number;
+	parentTask : string;
+	taskName : string;
+	startDate : Date;
+	endDate : Date;
+	priority : number;
+    endTaskStatus : boolean;
+  
     constructor() {
 
     }

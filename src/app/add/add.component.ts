@@ -17,11 +17,11 @@ export class AddComponent implements OnInit {
 
   task: Task = new Task();
 
-  addOrUpdateTask(task: Task): void
+  addTask(task: Task): void
   {
-    task.taskEndStatus = 'false';
+    task.endTaskStatus = false;
     console.log("Inside Add Component. Data is "+ JSON.stringify(task));
-    this.taskservice.addOrUpdateTask(task);
+    this.taskservice.addTask(task).subscribe();
 
   }
 

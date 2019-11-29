@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Task } from './task.model';
-import { map } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +14,36 @@ export class TaskService {
 
   private apiUrl = 'http://localhost:8080/v1';
 
-
-  addOrUpdateTask(task: Task): void {
-    console.log('Inside Service. The Data to be sent is ' + JSON.stringify(task));
-    this.http.post<Task>(this.apiUrl + '/addtask', task);
+  private handleError(error: any) {
+    console.log(error);
+    return throwError(error);
   }
 
-  updateTask(task: Task): void {
+
+  addTask(task: Task): Observable<Task> {
     console.log('Inside Service. The Data to be sent is ' + JSON.stringify(task));
-    this.http.post<Task>(this.apiUrl + '/updatetask', task);
+    return this.http.post<Task>(this.apiUrl + '/addtask', task).pipe(tap(data=>console.log(data)),catchError(this.handleError));
+    
+  }
+   
+  updateTask(task: Task): Observable<Task>{
+    //const url = `${this.apiUrl + '/updatetask'}/${task.taskId}`;
+    return this.http.put<Task>(this.apiUrl + '/updatetask', task).pipe(
+      map(() => task),
+      catchError(this.handleError)
+    );
   }
 
  // Read all REST Items
- viewTask() {
-  return this.http.get<any[]>(this.apiUrl + '/tasks').pipe(map(data => data));
+ viewTask(): Observable<Task[]>{
+  return this.http.get<Task[]>(this.apiUrl + '/tasks').pipe(map(data => data));
       }
 
-  updateEndStatus(task: Task)  {
-    this.http.post<Task>(this.apiUrl + '/updateendstatus', task);
+  updateEndStatus(task: Task): Observable<Task>  {
+    console.log("Inside service");
+    return this.http.put<Task>(this.apiUrl + '/updateendstatus', task).pipe(
+      map(() => task),
+      catchError(this.handleError)
+    );
   }
 }

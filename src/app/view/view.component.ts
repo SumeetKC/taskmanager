@@ -14,13 +14,13 @@ export class ViewComponent implements OnInit {
 
   ngOnInit() {
     this.taskservice.viewTask().subscribe(taskItems => {this.taskItems = taskItems; });
-    console.log(this.taskItems);
   }
-
 
   updateEndStatus(task: Task)  {
-    task.taskEndStatus = 'true';
-    this.taskservice.updateEndStatus(task);
+    task.endTaskStatus = true;
+    console.log("Inside Add Component. Data is "+ JSON.stringify(task));
+    this.taskservice.updateEndStatus(task).subscribe();;
   }
+
 
 }
