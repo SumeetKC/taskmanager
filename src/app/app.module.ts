@@ -8,7 +8,7 @@ import { AddComponent } from './add/add.component';
 import { ViewComponent } from './view/view.component';
 import { UpdateComponent } from './update/update.component';
 import { HttpClientModule } from '@angular/common/http';
-import { SearchFilter } from './searchfilter.pipe';
+import { TaskFilter } from './taskfilter.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { SearchFilter } from './searchfilter.pipe';
     AddComponent,
     ViewComponent,
     UpdateComponent,
-    SearchFilter
+    TaskFilter
   ],
   imports: [
     BrowserModule,

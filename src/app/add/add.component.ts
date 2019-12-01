@@ -12,17 +12,18 @@ export class AddComponent implements OnInit {
 
   constructor(private taskservice: TaskService) { }
 
+  task: Task = new Task();
+  taskaddstatus = false;
+
   ngOnInit() {
   }
 
-  task: Task = new Task();
-
-  addTask(task: Task): void
-  {
+  addTask(task: Task): void  {
     task.endTaskStatus = false;
-    console.log("Inside Add Component. Data is "+ JSON.stringify(task));
-    this.taskservice.addTask(task).subscribe();
-
+    this.taskservice.addTask(task).subscribe(data => { if (data) {
+      this.taskaddstatus = true;
+ }
+    });
   }
 
 }

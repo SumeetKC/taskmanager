@@ -19,15 +19,13 @@ export class TaskService {
     return throwError(error);
   }
 
-
+  // Adding new task
   addTask(task: Task): Observable<Task> {
-    console.log('Inside Service. The Data to be sent is ' + JSON.stringify(task));
-    return this.http.post<Task>(this.apiUrl + '/addtask', task).pipe(tap(data=>console.log(data)),catchError(this.handleError));
-    
+    return this.http.post<Task>(this.apiUrl + '/addtask', task).pipe(tap(data => console.log(data)), catchError(this.handleError));
   }
-   
-  updateTask(task: Task): Observable<Task>{
-    //const url = `${this.apiUrl + '/updatetask'}/${task.taskId}`;
+
+  // Updating task
+  updateTask(task: Task): Observable<Task> {
     return this.http.put<Task>(this.apiUrl + '/updatetask', task).pipe(
       map(() => task),
       catchError(this.handleError)
@@ -35,12 +33,18 @@ export class TaskService {
   }
 
  // Read all REST Items
- viewTask(): Observable<Task[]>{
+ viewTask(): Observable<Task[]> {
   return this.http.get<Task[]>(this.apiUrl + '/tasks').pipe(map(data => data));
-      }
+  }
 
+  // Get a task based on task id
+  getTask(id: number): Observable<Task> {
+    return this.http.get<Task>(this.apiUrl + '/task/' + id).pipe(map(data => data));
+    }
+
+    // Uppdating end status for task
   updateEndStatus(task: Task): Observable<Task>  {
-    console.log("Inside service");
+    console.log('Inside service');
     return this.http.put<Task>(this.apiUrl + '/updateendstatus', task).pipe(
       map(() => task),
       catchError(this.handleError)

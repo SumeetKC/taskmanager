@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Task } from '../task.model';
 import { TaskService } from '../task.service';
+import {ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-update',
@@ -9,19 +10,27 @@ import { TaskService } from '../task.service';
 })
 export class UpdateComponent implements OnInit {
 
-  constructor(private taskservice: TaskService) { }
-
-  ngOnInit() {
-  }
+  constructor(private taskservice: TaskService, private route: ActivatedRoute, private router: Router) { }
 
   task: Task = new Task();
+  id: number;
 
-  updateTask(task: Task): void
-  {
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.id = Number(params.get('id'));
+    });
+
+    this.taskservice.getTask(this.id).subscribe(task => {this.task = task; });
+  }
+
+updateTask(task: Task) {
     task.endTaskStatus = false;
-    console.log("Inside Update Component. Data is "+ JSON.stringify(task));
-    this.taskservice.updateTask(task).subscribe(data => this.task = data);
-
+    this.taskservice.updateTask(task).subscribe(data => {if (data) {
+      this.task = data;
+      this.router.navigateByUrl('/app-view');
+      }
+    });
   }
 
 }
+
