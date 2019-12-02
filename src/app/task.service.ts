@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Task } from './task.model';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 
 
@@ -13,7 +13,7 @@ export class TaskService {
   constructor(private http: HttpClient ) { }
 
   private apiUrl = 'http://localhost:8080/v1';
-
+  
   private handleError(error: any) {
     console.log(error);
     return throwError(error);
@@ -21,7 +21,7 @@ export class TaskService {
 
   // Adding new task
   addTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.apiUrl + '/addtask', task).pipe(tap(data => console.log(data)), catchError(this.handleError));
+    return this.http.post<Task>(this.apiUrl + '/addtask', task ).pipe( map(() => task), catchError(this.handleError));
   }
 
   // Updating task
@@ -44,7 +44,6 @@ export class TaskService {
 
     // Uppdating end status for task
   updateEndStatus(task: Task): Observable<Task>  {
-    console.log('Inside service');
     return this.http.put<Task>(this.apiUrl + '/updateendstatus', task).pipe(
       map(() => task),
       catchError(this.handleError)

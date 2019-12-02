@@ -14,7 +14,7 @@ export class ViewComponent implements OnInit {
   taskName: string;
   parentTask: string;
   priority: number;
-  startDate: string;
+  startDate: Date;
   endDate: Date;
 
   ngOnInit() {
