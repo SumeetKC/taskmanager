@@ -1,0 +1,74 @@
+ pipeline {
+   agent any
+
+   tools {
+      // Install the Maven version configured as "M3" and add it to the path.
+      maven "Maven"
+	  git 'Git'
+      jdk 'Java'
+      nodejs 'NodeJS'
+	  maven 'Maven'
+	  
+   }
+
+   stages {
+   
+	stage('Init'){
+			steps{
+					
+					echo "JAVA_HOME = ${JAVA_HOME}";
+					echo "PATH = ${PATH}";
+					echo "MAVEN_HOME = ${M2_HOME}";
+					//bat "npm init -y"
+					//bat "npm install -g @angular/cli;"
+		
+				println "Init success..";
+				
+			}
+		}
+			
+      stage('Build') {
+         steps {
+			
+			echo "Cloning GitHub repository for Task Manager Front End Project"
+			
+			// Get some code from a GitHub repository
+            git 'https://github.com/SumeetKC/taskmanager.git';
+			
+			echo "Starting build for Task Manager...."
+			
+			     //build 'Task Manager'
+			     bat "npm install"
+			     bat "ng build --aot --prod"
+             
+				println "BUILD NUMBER = $BUILD_NUMBER"
+				println "Build Success.."
+				
+			echo "Cloning GitHub repository for Task Manager Service Project"
+			
+            // Get some code from a GitHub repository
+            git 'https://github.com/SumeetKC/TaskManagerService.git'
+			
+			echo "Starting build for Task Manager Service...."
+
+            // Run Maven on a Unix agent.
+            //sh "mvn -Dmaven.test.failure.ignore=true clean package"
+
+            // To run Maven on a Windows agent, use
+             bat "mvn -Dmaven.test.failure.ignore=true clean package"
+			 
+			 println "Build Success.."
+         }
+
+         post {
+            // If Maven was able to run the tests, even if some of the test
+            // failed, record the test results and archive the jar file.
+            success {
+               //junit '**/target/surefire-reports/TEST-*.xml'
+               //archiveArtifacts 'target/*.jar'
+			   println "All the builds are successful"
+            }
+         }
+      }
+   }
+}
